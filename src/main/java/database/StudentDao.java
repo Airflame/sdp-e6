@@ -24,8 +24,16 @@ public class StudentDao {
         update(StudentParser.createSaveQuery(student));
     }
 
+    public void saveMultiple(ArrayList<Student> students) {
+        update(StudentParser.createSaveMultipleQuery(students));
+    }
+
     public void delete(Student student) {
         update(StudentParser.createDeleteQuery(student));
+    }
+
+    public void deleteByLastName(String lastName) {
+        update(StudentParser.createDeleteByLastNameQuery(lastName));
     }
 
     public void deleteAll() {

@@ -3,9 +3,11 @@ import database.StudentDao;
 
 public class Main {
     public static void main(String[] args) {
-        StudentDao studentDao = new StudentDao();
-        studentDao.deleteAll();
+        exercise1();
+    }
 
+    private static void exercise1() {
+        StudentDao studentDao = new StudentDao();
         studentDao.save(new Student("Adam", "Nowak"));
         studentDao.save(new Student("Piotr", "Kowalski"));
         studentDao.findAll().forEach(System.out::println);
@@ -20,5 +22,26 @@ public class Main {
         studentDao.save(new Student("Jan", "Zalewski"));
         System.out.println("Studenci z nazwiskiem Zalewski po dodaniu Jana Zalewskiego:");
         studentDao.findByLastName("Zalewski").forEach(System.out::println);
+    }
+
+    private static void exercise2() {
+        StudentDao studentDao = new StudentDao();
+        IndexTest indexTest = new IndexTest();
+        studentDao.deleteAll();
+        indexTest.insert(1000);
+        indexTest.select();
+        indexTest.delete();
+        studentDao.deleteAll();
+        indexTest.insert(10000);
+        indexTest.select();
+        indexTest.delete();
+        studentDao.deleteAll();
+        indexTest.insert(100000);
+        indexTest.select();
+        indexTest.delete();
+        studentDao.deleteAll();
+        indexTest.insert(1000000);
+        indexTest.select();
+        indexTest.delete();
     }
 }

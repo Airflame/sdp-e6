@@ -1,18 +1,17 @@
 package database;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 
-public class StudentDAO {
+public class StudentDao {
     private final static String DBURL = "jdbc:postgresql://localhost:5432/sdp";
     private final static String DBUSER = "postgres";
     private final static String DBPASS = "Ja3170";
 
     private Connection conn;
     private Statement stmt;
-    private String sql;
 
-    public StudentDAO() {
+    public StudentDao() {
         try {
             conn = DriverManager.getConnection(DBURL, DBUSER, DBPASS);
             stmt = conn.createStatement();
@@ -22,25 +21,26 @@ public class StudentDAO {
     }
 
     public void save(Student student) {
-        sql = SQLStudentParser.createSaveQuery(student);
-        try {
-            stmt.executeUpdate(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        update(StudentParser.createSaveQuery(student));
     }
 
     public void delete(Student student) {
-        sql = SQLStudentParser.createDeleteQuery(student);
-        try {
-            stmt.executeUpdate(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        update(StudentParser.createDeleteQuery(student));
     }
 
     public void deleteAll() {
-        sql = "TRUNCATE TABLE \"STUDENTS\"";
+        update(StudentParser.createDeleteAllQuery());
+    }
+
+    public List<Student> findByLastName(String lastName) {
+        return find(StudentParser.createFindByLastNameQuery(lastName));
+    }
+
+    public List<Student> findAll() {
+        return find(StudentParser.createFindAllQuery());
+    }
+
+    private void update(String sql) {
         try {
             stmt.executeUpdate(sql);
         } catch (Exception e) {
@@ -48,8 +48,7 @@ public class StudentDAO {
         }
     }
 
-    public ArrayList<Student> getAll() {
-        sql = "SELECT * FROM \"STUDENTS\"";
+    private List<Student> find(String sql) {
         ResultSet rs = null;
         try {
             rs = stmt.executeQuery(sql);
@@ -57,7 +56,7 @@ public class StudentDAO {
             e.printStackTrace();
         }
 
-        ArrayList<Student> students = new ArrayList<>();
+        List<Student> students = new ArrayList<>();
         try {
             while (rs.next())
                 students.add(new Student(rs.getString("First_name"), rs.getString("Last_name")));

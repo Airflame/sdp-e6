@@ -29,7 +29,7 @@ public class IndexTest {
         Instant start = Instant.now();
         int rows = studentDao.findByLastName("a").size();
         Instant finish = Instant.now();
-        System.out.print("SELECT "+rows+" rows: ");
+        System.out.print("SELECT: ");
         System.out.println(Duration.between(start, finish).toMillis());
     }
 

@@ -8,6 +8,8 @@ public class Main {
 
     private static void exercise1() {
         StudentDao studentDao = new StudentDao();
+        studentDao.deleteAll();
+
         studentDao.save(new Student("Adam", "Nowak"));
         studentDao.save(new Student("Piotr", "Kowalski"));
         studentDao.findAll().forEach(System.out::println);
